@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://3gilkj532s3n"]
+
+[ext_resource type="Texture2D" uid="uid://cwcsd2waitx7w" path="res://assets/player/ship.png" id="1_kdur2"]
+[ext_resource type="Script" uid="uid://i21shxnbu0w6" path="res://player/space_ship.gd" id="1_xvnly"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_24ywg"]
+radius = 51.0
+height = 250.0
+
+[node name="SpaceShip" type="GravObject" unique_id=396262064]
+turn_speed = 40000.0
+max_speed = 1000.0
+collision_mask = 2
+script = ExtResource("1_xvnly")
+
+[node name="Ship" type="Sprite2D" parent="." unique_id=1590359398]
+texture = ExtResource("1_kdur2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1679666457]
+position = Vector2(0, 10)
+shape = SubResource("CapsuleShape2D_24ywg")

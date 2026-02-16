@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://ckwlj3mobduxg"]
+
+[ext_resource type="Script" uid="uid://dp554wch5hnj8" path="res://planets/planet.gd" id="1_iw0y7"]
+[ext_resource type="Texture2D" uid="uid://ci34br2hflaj8" path="res://assets/space/orange_planet.png" id="1_kwq3d"]
+
+[sub_resource type="Gradient" id="Gradient_iw0y7"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0.625, 0.7777778, 1)
+colors = PackedColorArray(0.41960785, 0.6039216, 1, 0, 0.4182377, 0.6019757, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_aq8rk"]
+gradient = SubResource("Gradient_iw0y7")
+width = 400
+height = 400
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_iw0y7"]
+radius = 141.22676
+
+[node name="DebugPlanet" type="StaticBody2D" unique_id=461092253]
+collision_layer = 2
+input_pickable = true
+script = ExtResource("1_iw0y7")
+strength_multiplier = 3.0
+metadata/_custom_type_script = "uid://dp554wch5hnj8"
+
+[node name="OrangePlanet" type="Sprite2D" parent="." unique_id=1627786180]
+position = Vector2(3, -10)
+texture = ExtResource("1_kwq3d")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="." unique_id=1557989348]
+offset_left = -200.0
+offset_top = -200.0
+offset_right = 200.0
+offset_bottom = 200.0
+fill_mode = 4
+texture_progress = SubResource("GradientTexture2D_aq8rk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1801016984]
+shape = SubResource("CircleShape2D_iw0y7")
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
