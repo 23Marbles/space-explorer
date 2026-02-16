@@ -1,0 +1,102 @@
+[gd_scene format=3 uid="uid://d3uajdpvlihkq"]
+
+[ext_resource type="PackedScene" uid="uid://ckwlj3mobduxg" path="res://planets/debug_planet.tscn" id="1_oq6yt"]
+[ext_resource type="Script" uid="uid://co3q2qwabnsbo" path="res://debug_space_controller.gd" id="1_pudsk"]
+[ext_resource type="PackedScene" uid="uid://3gilkj532s3n" path="res://player/space_ship.tscn" id="2_pudsk"]
+[ext_resource type="Texture2D" uid="uid://bsbfknqreumtw" path="res://assets/space/background_star.png" id="3_t0f0j"]
+[ext_resource type="Script" uid="uid://dtdbkp5belbij" path="res://assets/space/star_parallax.gd" id="6_1wh28"]
+
+[sub_resource type="Gradient" id="Gradient_ssvxu"]
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_1wh28"]
+gradient = SubResource("Gradient_ssvxu")
+width = 1
+
+[node name="Space" type="Node2D" unique_id=267100560]
+script = ExtResource("1_pudsk")
+
+[node name="Planets" type="Node2D" parent="." unique_id=555121345]
+
+[node name="DebugPlanet" parent="Planets" unique_id=461092253 instance=ExtResource("1_oq6yt")]
+position = Vector2(1109, 668)
+
+[node name="DebugPlanet2" parent="Planets" unique_id=23912145 instance=ExtResource("1_oq6yt")]
+position = Vector2(-2291, 2214)
+
+[node name="DebugPlanet3" parent="Planets" unique_id=2021546831 instance=ExtResource("1_oq6yt")]
+position = Vector2(-1982, -1898)
+
+[node name="DebugPlanet4" parent="Planets" unique_id=185608031 instance=ExtResource("1_oq6yt")]
+position = Vector2(2469, 3327)
+
+[node name="DebugPlanet5" parent="Planets" unique_id=1509219598 instance=ExtResource("1_oq6yt")]
+position = Vector2(2686, -1867)
+
+[node name="SpaceShip" parent="." unique_id=1718396979 instance=ExtResource("2_pudsk")]
+max_speed = 500.0
+position = Vector2(394, 225)
+
+[node name="Camera2D" type="Camera2D" parent="SpaceShip" unique_id=623107792]
+zoom = Vector2(0.4, 0.4)
+position_smoothing_enabled = true
+
+[node name="ParallaxDistance5" type="Parallax2D" parent="." unique_id=88322301]
+z_index = -1
+scroll_scale = Vector2(0, 0)
+repeat_size = Vector2(2000, 2000)
+repeat_times = 4
+
+[node name="TextureRect" type="TextureRect" parent="ParallaxDistance5" unique_id=457722075]
+offset_right = 2000.0
+offset_bottom = 2000.0
+texture = SubResource("GradientTexture1D_1wh28")
+
+[node name="StarParallax2D" type="Parallax2D" parent="." unique_id=1380667286]
+modulate = Color(1, 1, 1, 0.8810024)
+z_index = -1
+scroll_scale = Vector2(0.8810024, 0.8810024)
+repeat_size = Vector2(2000, 2000)
+repeat_times = 4
+script = ExtResource("6_1wh28")
+star_textures = Array[Texture2D]([ExtResource("3_t0f0j")])
+metadata/_custom_type_script = "uid://dtdbkp5belbij"
+
+[node name="StarParallax2D2" type="Parallax2D" parent="." unique_id=1019936086]
+modulate = Color(1, 1, 1, 0.67722094)
+z_index = -1
+scroll_scale = Vector2(0.67722094, 0.67722094)
+repeat_size = Vector2(2000, 2000)
+repeat_times = 4
+script = ExtResource("6_1wh28")
+max_scale = 0.8
+min_scale = 0.6
+star_quantity = 4
+star_textures = Array[Texture2D]([ExtResource("3_t0f0j")])
+metadata/_custom_type_script = "uid://dtdbkp5belbij"
+
+[node name="StarParallax2D3" type="Parallax2D" parent="." unique_id=49185710]
+modulate = Color(1, 1, 1, 0.53057665)
+z_index = -1
+scroll_scale = Vector2(0.53057665, 0.53057665)
+repeat_size = Vector2(2000, 2000)
+repeat_times = 4
+script = ExtResource("6_1wh28")
+max_scale = 0.6
+min_scale = 0.4
+star_quantity = 6
+star_textures = Array[Texture2D]([ExtResource("3_t0f0j")])
+metadata/_custom_type_script = "uid://dtdbkp5belbij"
+
+[node name="StarParallax2D4" type="Parallax2D" parent="." unique_id=1131917434]
+modulate = Color(1, 1, 1, 0.2775199)
+z_index = -1
+scroll_scale = Vector2(0.2775199, 0.2775199)
+repeat_size = Vector2(2000, 2000)
+repeat_times = 4
+script = ExtResource("6_1wh28")
+max_scale = 0.4
+min_scale = 0.2
+star_quantity = 9
+star_textures = Array[Texture2D]([ExtResource("3_t0f0j")])
+metadata/_custom_type_script = "uid://dtdbkp5belbij"

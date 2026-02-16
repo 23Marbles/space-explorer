@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://d3uajdpvlihkq"]
+
+[ext_resource type="PackedScene" uid="uid://ckwlj3mobduxg" path="res://planets/debug_planet.tscn" id="1_oq6yt"]
+[ext_resource type="Script" uid="uid://co3q2qwabnsbo" path="res://debug_space_controller.gd" id="1_pudsk"]
+[ext_resource type="PackedScene" uid="uid://3gilkj532s3n" path="res://player/space_ship.tscn" id="2_pudsk"]
+
+[node name="Space" type="Node2D" unique_id=267100560]
+script = ExtResource("1_pudsk")
+
+[node name="DebugPlanet" parent="." unique_id=192249803 instance=ExtResource("1_oq6yt")]
+
+[node name="SpaceShip" parent="." unique_id=1718396979 instance=ExtResource("2_pudsk")]
+position = Vector2(461, 306)
+
+[node name="Camera2D" type="Camera2D" parent="SpaceShip" unique_id=623107792]
