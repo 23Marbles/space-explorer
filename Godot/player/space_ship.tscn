@@ -9,8 +9,9 @@ height = 250.0
 
 [node name="SpaceShip" type="GravObject" unique_id=396262064]
 turn_speed = 40000.0
-max_speed = 1000.0
+max_speed = 1500.0
 collision_mask = 2
+gravity_scale = 0.0
 script = ExtResource("1_xvnly")
 
 [node name="Ship" type="Sprite2D" parent="." unique_id=1590359398]

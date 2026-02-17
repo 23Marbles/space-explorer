@@ -12,8 +12,12 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	queue_redraw()
 
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_accept"):
+		queue_redraw()
+
 func _draw() -> void:
-	draw_polyline(space_ship.get_log_with_res(700.), Color.WHITE)
+	draw_polyline(space_ship.get_log_with_res(7), Color.WHITE, 10)
 
 func connect_planet(center: Vector2, strength: float):
 	space_ship.set_center_vals(center, strength)

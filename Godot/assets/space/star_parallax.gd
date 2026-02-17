@@ -10,23 +10,23 @@ class_name StarParallax2D extends Parallax2D
 @export var min_scale := 0.8
 @export var star_quantity := 3
 
-@export var star_textures: Array[Texture2D] = [load("res://assets/space/background_star.png")]
+@export var overload_star_data: bool
+
+@export var star_textures: SpaceBackground = load("res://assets/space/space_background.tres")
 
 func reload_stars():
 	for c in get_children():
 		c.queue_free()
 	
-	var stars: Array[Star] = []
+	var stars: Array[Star]
 	
-	for s in star_quantity:
-		var star := Star.new()
-		star.position = Vector2(randf_range(0, repeat_size.x), randf_range(0, repeat_size.y))
-		star.scale = Vector2.ONE * randf_range(min_scale, max_scale)
-		star.rotation = randf()
+	if overload_star_data:
+		stars = star_textures.generate_stars_quantity(repeat_size, star_quantity)
 		
-		star.texture = star_textures.pick_random()
-		
-		stars.push_back(star)
+		for s in stars:
+			s.scale = Vector2.ONE * randf_range(min_scale, max_scale)
+	else:
+		stars = star_textures.generate_stars(repeat_size)
 	
 	var total_scale := Vector2.ZERO
 	

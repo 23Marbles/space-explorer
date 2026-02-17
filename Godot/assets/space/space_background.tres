@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="SpaceBackground" format=3 uid="uid://d31nb8gynvbko"]
+
+[ext_resource type="Script" uid="uid://b552o24ac6wna" path="res://assets/space/space_background.gd" id="1_cpmjt"]
+
+[sub_resource type="Gradient" id="Gradient_cpmjt"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0.10576923, 0.21153846)
+colors = PackedColorArray(1, 1, 0.8980392, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_degm1"]
+gradient = SubResource("Gradient_cpmjt")
+width = 256
+height = 256
+use_hdr = true
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
+[resource]
+script = ExtResource("1_cpmjt")
+star_textures = Array[Texture2D]([SubResource("GradientTexture2D_degm1")])
+metadata/_custom_type_script = "uid://b552o24ac6wna"
