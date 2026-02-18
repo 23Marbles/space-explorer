@@ -24,9 +24,9 @@ Blast into space
    |
    |
 Place stations in orbit above planets
-   |
-   |
-Link stations
+   |                   |
+   |                   |
+Link stations ———— Find new planets
    |
    |
 View your network
