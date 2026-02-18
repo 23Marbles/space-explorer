@@ -1,35 +1,45 @@
-extends GravObject
+class_name Player extends GravObject
 
 var orbit_clockwise: bool
 var force: float
 
-func set_center_vals(center: Vector2, strength: float):
+var connected_planet: Planet = Planet.new()
+
+var move_twd_max_turn_speed: bool
+
+func connect_planet(planet: Planet):
+	move_twd_max_turn_speed = true
 	apply_impulse(
 		(
-			global_position.direction_to(center)
-			* strength / global_position.distance_to(center)
+			global_position.direction_to(planet.get_planet_center())
+			* planet.get_grav_strength() / global_position.distance_to(planet.get_planet_center())
 			) / 10
 		)
-	set_planet(center, strength)
+	connected_planet = planet
+	speed = entry_speed
+	set_planet(planet.get_planet_center(), planet.get_grav_strength(), planet.in_atmosphere)
 
-var try_unset: bool = false
-
-func unset_center_vals():
-	if !orbitted:
-		unset_planet()
-	else:
-		try_unset = true
-
-func _unhandled_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("debug_press"):
-		if try_unset:
-			orbit_clockwise = !orbit_clockwise
-			unset_planet()
-			try_unset = false
+		if has_planet():
+			
+			break_orbital_connection()
+			
+			if !has_planet():
+				orbit_clockwise = !orbit_clockwise
+				move_twd_max_turn_speed = true
 
 @onready var camera_2d: Camera2D = $Camera2D
 
 func _physics_process(delta: float) -> void:
+	set_atmosphere(connected_planet.in_atmosphere)
+	set_clicking(connected_planet.clicked)
+	
+	if move_twd_max_turn_speed:
+		turn_speed = move_toward(turn_speed, max_turn_speed, delta * turn_accel)
+		if turn_speed == max_turn_speed:
+			move_twd_max_turn_speed = false
+	
 	if orbitted:
 		camera_2d.ignore_rotation = false
 		orbitting = true
@@ -56,7 +66,7 @@ func _physics_process(delta: float) -> void:
 	
 	turn_speed = min(turn_speed, max_turn_speed)
 	
-	apply_force((Vector2(0, force) * max_speed).rotated(rotation))
+	apply_force((Vector2(0, force) * speed).rotated(rotation))
 	apply_torque((1 if orbit_clockwise else -1) * turn_speed)
 	
 	linear_velocity *= 0.99

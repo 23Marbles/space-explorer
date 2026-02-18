@@ -1,4 +1,58 @@
-use godot::{classes::{IRigidBody2D, RigidBody2D}, meta::PackedArrayElement, obj::Base, prelude::*};
+use godot::{
+    classes::{IRigidBody2D, RigidBody2D},
+    meta::PackedArrayElement,
+    obj::Base,
+    prelude::*,
+};
+
+enum ConnectionChange {
+    Atmosphere(bool),
+    Clicking(bool),
+    Orbital(bool),
+}
+
+#[derive(Debug, Default)]
+struct ConnectionStatus {
+    in_atmosphere: bool,
+    planet_clicked: bool,
+    orbital_connection: bool,
+}
+
+impl ConnectionStatus {
+    /// # Returns
+    /// Returns whether you should leave the planet
+    fn connection_change(&mut self, change: ConnectionChange) -> bool {
+        match change {
+            ConnectionChange::Atmosphere(value) => {
+                self.in_atmosphere = value;
+                self.should_leave()
+            }
+            ConnectionChange::Clicking(value) => {
+                self.planet_clicked = value;
+                self.should_leave()
+            }
+            ConnectionChange::Orbital(value) => {
+                self.orbital_connection = value;
+                self.should_leave()
+            }
+        }
+    }
+
+    fn should_leave(&self) -> bool {
+        // if clicked definetely shouldn't leave
+        if self.planet_clicked {
+            false
+        } else {
+            // if not in atmoshphere leave unless planet clicked
+            if self.orbital_connection {
+                !self.in_atmosphere
+            } else {
+                // if not clicked
+                true
+            }
+        }
+    }
+}
 
 #[derive(GodotClass)]
 #[class(base=RigidBody2D, init)]
@@ -21,9 +75,15 @@ struct GravObject {
     /// The maximum distance from the planet it is connected to
     max_grav_dist: f32,
     #[export]
-    #[init(val = 1250.)]
-    max_speed: f32,
+    #[init(val = 1500.)]
+    exit_speed: f32,
+    #[export]
+    #[init(val = 1000.)]
+    entry_speed: f32,
+    #[var]
+    speed: f32,
     planet_data: Option<(Vector2, f32)>,
+    planet_connection: Option<ConnectionStatus>,
     #[var]
     pos_log: PackedVector2Array,
     #[var]
@@ -38,16 +98,28 @@ struct GravObject {
 
 #[godot_api]
 impl IRigidBody2D for GravObject {
-    fn ready(&mut self,) {
-        self.turn_speed = self.max_turn_speed
+    fn ready(&mut self) {
+        self.turn_speed = self.max_turn_speed;
+        self.speed = self.exit_speed;
     }
 }
 
 #[godot_api]
 impl GravObject {
     #[func]
-    fn set_planet(&mut self, pos: Vector2, strength: f32) {
-        self.planet_data = Some((pos, strength))
+    fn has_planet(&self) -> bool {
+        self.planet_data.is_some()
+    }
+
+    #[func]
+    fn set_planet(&mut self, pos: Vector2, strength: f32, in_atmosphere: bool) {
+        self.speed = self.entry_speed;
+        self.planet_data = Some((pos, strength));
+        self.planet_connection = Some(ConnectionStatus {
+            in_atmosphere,
+            planet_clicked: true,
+            orbital_connection: false,
+        })
     }
 
     #[func]
@@ -56,10 +128,82 @@ impl GravObject {
     }
 
     #[func]
+    fn set_atmosphere(&mut self, atmosphere: bool) {
+        if self
+            .planet_connection
+            .as_mut()
+            .unwrap()
+            .connection_change(ConnectionChange::Atmosphere(atmosphere))
+        {
+            self.unset_planet();
+        }
+    }
+
+    #[func]
+    fn leave_atmosphere(&mut self) {
+        if self
+            .planet_connection
+            .as_mut()
+            .unwrap()
+            .connection_change(ConnectionChange::Atmosphere(false))
+        {
+            self.unset_planet();
+        }
+    }
+
+    #[func]
+    fn enter_atmosphere(&mut self) {
+        self.planet_connection.as_mut().unwrap().in_atmosphere = true
+    }
+
+    #[func]
+    fn break_orbital_connection(&mut self) {
+        if self
+            .planet_connection
+            .as_mut()
+            .unwrap()
+            .connection_change(ConnectionChange::Orbital(false))
+        {
+            self.unset_planet();
+        }
+    }
+
+    #[func]
+    fn set_clicking(&mut self, clicking: bool) {
+        if self
+            .planet_connection
+            .as_mut()
+            .unwrap()
+            .connection_change(ConnectionChange::Clicking(clicking))
+        {
+            self.unset_planet();
+        }
+    }
+
+    #[func]
+    fn click_planet(&mut self) {
+        self.planet_connection.as_mut().unwrap().planet_clicked = true
+    }
+
+    #[func]
+    fn stop_clicking_planet(&mut self) {
+        if self
+            .planet_connection
+            .as_mut()
+            .unwrap()
+            .connection_change(ConnectionChange::Clicking(false))
+        {
+            self.unset_planet();
+        }
+    }
+
+    #[func]
     fn unset_planet(&mut self) {
         self.planet_data = None;
         self.orbitted = false;
         self.orbitting = false;
+        self.speed = self.exit_speed;
+        self.planet_connection = None
     }
 
     #[func]
@@ -71,12 +215,13 @@ impl GravObject {
             );
 
             if !self.orbitted {
-                if self.get_planet_circle(self.threshhold_range) {
+                if self.get_planet_circle() {
+                    self.planet_connection.as_mut().unwrap().orbital_connection = true;
                     self.orbitted = true
                 }
             }
         } else {
-            self.orbitted = false
+            self.orbitted = false;
         }
     }
 
@@ -109,35 +254,83 @@ impl GravObject {
     }
 
     // Potentially change .unwrap to .unwrap_unchecked
-    fn get_planet_circle(&self, threshhold: f32) -> bool {
+    fn get_planet_circle(&self) -> bool {
         if let Some((center, _)) = self.planet_data {
-            // maybe something better than averge time
+            if self.pos_log.len() < 2 {
+                return false;
+            }
+
             let n_back = (self.hold_time / self.time_log.average()).ceil() as usize;
 
-            if !(self.pos_log.len() >= n_back) {
-                // not long enough existence
+            if self.pos_log.len() <= n_back {
                 return false;
-            };
+            }
 
-            let init_val = self.pos_log.get(self.pos_log.len() - 1).unwrap().distance_to(center);
+            let vec_pos_log = self.pos_log.to_vec();
 
-            let (mut min, mut max): (f32, f32) = (init_val, init_val);
+            // Reverse iteration without cloning (more efficient)
+            let recent = &vec_pos_log[vec_pos_log.len() - n_back..];
 
-            for i in self.pos_log.len()-n_back ..self.pos_log.len() - 2 {
-                let dist = self.pos_log.get(i).unwrap().distance_to(center);
-                if dist > max { max = dist } else if dist < min { min = dist }
-            };
+            let mut min_dist;
+            let mut max_dist;
 
-            godot_print!("range: {}", max - min);
+            // Initial distance
+            let first_dist = recent[0].distance_to(center);
+            min_dist = first_dist;
+            max_dist = first_dist;
 
-            // TODO: make -* work
-            // if the difference is bigger than threshhold fail
-            max - min <= threshhold
+            let mut total_angle_change = 0.0;
+            let mut prev_angle = angle_from_center(recent[0], center);
+
+            for pos in &recent[1..] {
+                let dist = pos.distance_to(center);
+
+                if dist > max_dist {
+                    max_dist = dist;
+                } else if dist < min_dist {
+                    min_dist = dist;
+                }
+
+                // Radial stability check
+                if max_dist - min_dist > self.threshhold_range {
+                    return false;
+                }
+
+                // Angular movement tracking
+                let angle = angle_from_center(*pos, center);
+                let delta = smallest_angle_diff(prev_angle, angle);
+                total_angle_change += delta.abs();
+                prev_angle = angle;
+            }
+
+            const MIN_TOTAL_ANGLE: f32 = 2.;
+
+            // Reject sitting still or tiny rocking
+            if total_angle_change < MIN_TOTAL_ANGLE {
+                return false;
+            }
+
+            true
         } else {
-            // no center
             false
         }
     }
+}
+
+fn angle_from_center(pos: Vector2, center: Vector2) -> f32 {
+    (pos.y - center.y).atan2(pos.x - center.x)
+}
+
+fn smallest_angle_diff(a: f32, b: f32) -> f32 {
+    use std::f32::consts::PI;
+    let mut diff = b - a;
+    while diff > PI {
+        diff -= 2.0 * PI;
+    }
+    while diff < -PI {
+        diff += 2.0 * PI;
+    }
+    diff
 }
 
 impl Logging<f64> for PackedFloat64Array {

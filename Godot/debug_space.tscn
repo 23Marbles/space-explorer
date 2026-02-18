@@ -31,7 +31,6 @@ strength_multiplier = 1.0
 [node name="SpaceShip" parent="." unique_id=1718396979 instance=ExtResource("2_pudsk")]
 hold_time = 3.0
 turn_accel = 1000.0
-max_speed = 500.0
 position = Vector2(394, 225)
 
 [node name="Camera2D" type="Camera2D" parent="SpaceShip" unique_id=623107792]
@@ -59,9 +58,9 @@ offset_bottom = 2000.0
 texture = SubResource("GradientTexture1D_1wh28")
 
 [node name="StarParallax2D" type="Parallax2D" parent="." unique_id=1380667286]
-modulate = Color(1, 1, 1, 0.9008345)
+modulate = Color(1, 1, 1, 0.90066546)
 z_index = -1
-scroll_scale = Vector2(0.9008345, 0.9008345)
+scroll_scale = Vector2(0.90066546, 0.90066546)
 repeat_size = Vector2(2000, 2000)
 repeat_times = 4
 script = ExtResource("6_1wh28")
@@ -70,9 +69,9 @@ star_textures = ExtResource("6_1pbtg")
 metadata/_custom_type_script = "uid://dtdbkp5belbij"
 
 [node name="StarParallax2D2" type="Parallax2D" parent="." unique_id=1019936086]
-modulate = Color(1, 1, 1, 0.7007024)
+modulate = Color(1, 1, 1, 0.68319935)
 z_index = -1
-scroll_scale = Vector2(0.7007024, 0.7007024)
+scroll_scale = Vector2(0.68319935, 0.68319935)
 repeat_size = Vector2(2000, 2000)
 repeat_times = 4
 script = ExtResource("6_1wh28")
@@ -84,9 +83,9 @@ star_textures = ExtResource("6_1pbtg")
 metadata/_custom_type_script = "uid://dtdbkp5belbij"
 
 [node name="StarParallax2D3" type="Parallax2D" parent="." unique_id=49185710]
-modulate = Color(1, 1, 1, 0.48111126)
+modulate = Color(1, 1, 1, 0.48168156)
 z_index = -1
-scroll_scale = Vector2(0.48111126, 0.48111126)
+scroll_scale = Vector2(0.48168156, 0.48168156)
 repeat_size = Vector2(2000, 2000)
 repeat_times = 4
 script = ExtResource("6_1wh28")
@@ -98,9 +97,9 @@ star_textures = ExtResource("6_1pbtg")
 metadata/_custom_type_script = "uid://dtdbkp5belbij"
 
 [node name="StarParallax2D4" type="Parallax2D" parent="." unique_id=1131917434]
-modulate = Color(1, 1, 1, 0.29953605)
+modulate = Color(1, 1, 1, 0.28974792)
 z_index = -1
-scroll_scale = Vector2(0.29953605, 0.29953605)
+scroll_scale = Vector2(0.28974792, 0.28974792)
 repeat_size = Vector2(2000, 2000)
 repeat_times = 4
 script = ExtResource("6_1wh28")

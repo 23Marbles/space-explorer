@@ -16,6 +16,9 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.5, 0)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_aq8rk"]
+radius = 3120.2983
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_iw0y7"]
 radius = 141.22676
 
@@ -38,8 +41,18 @@ offset_bottom = 200.0
 fill_mode = 4
 texture_progress = SubResource("GradientTexture2D_aq8rk")
 
+[node name="Area2D" type="Area2D" parent="." unique_id=783467523]
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1409570603]
+shape = SubResource("CircleShape2D_aq8rk")
+debug_color = Color(1, 1, 1, 0.41960785)
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1801016984]
 shape = SubResource("CircleShape2D_iw0y7")
+debug_color = Color(0.85577035, 0.36758545, 0, 0.41960785)
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]

@@ -64,6 +64,7 @@ debug_press={
 
 2d_physics/layer_1="Player"
 2d_physics/layer_2="Planet"
+2d_physics/layer_3="Atmosphere"
 
 [physics]
 
