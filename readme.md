@@ -9,8 +9,12 @@ The premise of the game is to explore space searching for planets to colonize an
 
 ![Godot wild jam logo](https://godotwildjam.com/wp-content/uploads/2021/12/GWJ-Full-Logo-tag-Orange2.svg)
 
+### Theme: Journey
+![theme journey](https://godotwildjam.com/wp-content/uploads/2026/02/Journey-1024x325.png)
+
 This uses the cartographer wildcard
-![cartographer wildcard](https://drive.google.com/file/d/1hvccOOZBLqZHzzNehGwAOT6pIgChlAn6/view?usp=drivesdk)
+
+![wildcards](https://godotwildjam.com/wp-content/uploads/2026/02/90-All-Cards-1024x631.png)
 
 ## Todo:
 
