@@ -7,7 +7,7 @@ The premise of the game is to explore space searching for planets to colonize an
 
 ## Jam
 
-![Godot wild jam logo](https://godotwildjam.com/)
+![Godot wild jam logo](https://godotwildjam.com/wp-content/uploads/2021/12/GWJ-Full-Logo-tag-Orange2.svg)
 
 This uses the cartographer wildcard
 
