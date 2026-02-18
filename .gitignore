@@ -10,7 +10,7 @@ Godot/export_credentials.cfg
 
 # Godot film ignores
 
-Godot\recording.avi
+Godot/recording.avi
 
 # Imported translations (automatically generated from CSV files)
 Godot/*.translation
