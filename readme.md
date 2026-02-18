@@ -16,6 +16,22 @@ This uses the cartographer wildcard
 
 ![wildcards](https://godotwildjam.com/wp-content/uploads/2026/02/90-All-Cards-1024x631.png)
 
+## Overview
+
+### Gameplay loop
+```
+Blast into space
+   |
+   |
+Place stations in orbit above planets
+   |
+   |
+Link stations
+   |
+   |
+View your network
+```
+
 ## Todo:
 
 - [x] Movement 
