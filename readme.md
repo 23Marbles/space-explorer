@@ -12,8 +12,8 @@ This uses the cartographer wildcard
 ## Todo:
 
 - [x] Movement 
-- [] Placing in orbit
-- [] Interacting with objects 
-- [] Objectives and navigation 
-- [] Create game assets
-- [] Final cutscene
+- [ ] Placing in orbit
+- [ ] Interacting with objects 
+- [ ] Objectives and navigation 
+- [ ] Create game assets
+- [ ] Final cutscene
