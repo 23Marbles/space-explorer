@@ -7,6 +7,8 @@ The premise of the game is to explore space searching for planets to colonize an
 
 ## Jam
 
+![Godot wild jam logo](https://godotwildjam.com/)
+
 This uses the cartographer wildcard
 
 ## Todo:
