@@ -18,17 +18,20 @@ This uses the cartographer wildcard
 
 ## Overview
 
+You travel around a galaxy to find resources and must transport these to whatever planet needs them.
+At the end you should have a web of resource pipelines.
+
 ### Gameplay loop
 ```
 Blast into space
-   |
-   |
-Place stations in orbit above planets
-   |                   |
-   |                   |
-Link stations ———— Find new planets
-   |
-   |
+   │
+   │
+Place objects in orbit above planets
+   │                  │
+   │                  │
+Link objects ─── Find new planets
+   │
+   │
 View your network
 ```
 
