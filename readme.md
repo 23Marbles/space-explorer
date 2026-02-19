@@ -42,7 +42,7 @@ View your network
 ## Todo:
 
 - [x] Movement 
-- [ ] Placing in orbit
+- [x] Placing in orbit
 - [ ] Interacting with objects 
 - [ ] Objectives and navigation 
 - [ ] Create game assets

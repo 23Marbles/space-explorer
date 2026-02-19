@@ -1,3 +1,5 @@
+use std::fmt::Debug;
+
 use godot::{
     classes::{IRigidBody2D, RigidBody2D},
     meta::PackedArrayElement,
@@ -11,7 +13,7 @@ enum ConnectionChange {
     Orbital(bool),
 }
 
-#[derive(Debug, Default)]
+#[derive(Debug, Default, Clone, Copy)]
 struct ConnectionStatus {
     in_atmosphere: bool,
     planet_clicked: bool,
@@ -71,10 +73,6 @@ struct GravObject {
     #[var]
     turn_speed: f32,
     #[export]
-    #[init(val = 450.)]
-    /// The maximum distance from the planet it is connected to
-    max_grav_dist: f32,
-    #[export]
     #[init(val = 1500.)]
     exit_speed: f32,
     #[export]
@@ -90,10 +88,34 @@ struct GravObject {
     time_log: PackedFloat64Array,
     #[var]
     orbitting: bool,
+    #[var]
+    orbit_clockwise: bool,
     /// Is true when it has fully orbitted the center
     #[var]
     orbitted: bool,
     base: Base<RigidBody2D>,
+}
+
+impl Debug for GravObject {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("GravObject")
+            .field("threshhold_range", &self.threshhold_range)
+            .field("hold_time", &self.hold_time)
+            .field("max_turn_speed", &self.max_turn_speed)
+            .field("turn_accel", &self.turn_accel)
+            .field("turn_speed", &self.turn_speed)
+            .field("exit_speed", &self.exit_speed)
+            .field("entry_speed", &self.entry_speed)
+            .field("speed", &self.speed)
+            .field("planet_data", &self.planet_data)
+            .field("planet_connection", &self.planet_connection)
+            //.field("pos_log", &self.pos_log)
+            //.field("time_log", &self.time_log)
+            .field("orbitting", &self.orbitting)
+            .field("orbitted", &self.orbitted)
+            .field("base", &self.base)
+            .finish()
+    }
 }
 
 #[godot_api]
@@ -106,6 +128,44 @@ impl IRigidBody2D for GravObject {
 
 #[godot_api]
 impl GravObject {
+    fn inherit(&mut self, other: &GravObject) {
+        self.speed = other.speed;
+        self.turn_speed = other.turn_speed;
+        self.planet_connection = other.planet_connection;
+        self.planet_data = other.planet_data;
+        self.orbitting = other.orbitting;
+        self.orbitted = other.orbitted;
+
+        // invert this cus...?
+        self.orbit_clockwise = !other.orbit_clockwise;
+
+        self.base_mut()
+            .set_linear_velocity(other.base().get_linear_velocity());
+        self.base_mut()
+            .set_angular_velocity(other.base().get_angular_velocity());
+
+        self.base_mut()
+            .set_global_position(other.base().get_global_position());
+        self.base_mut()
+            .set_global_rotation(other.base().get_global_rotation());
+    }
+
+    #[func]
+    fn spawn_inherited_grav_object(&mut self, scene: Gd<PackedScene>) {
+        if let Some(mut grav_obj) = scene.try_instantiate_as::<GravObject>() {
+            let mut parent = self
+                .base()
+                .get_parent()
+                .expect("no parent, cannot spawn grav_obj above target");
+
+            let mut rust_grav_obj = grav_obj.bind_mut();
+
+            rust_grav_obj.inherit(self);
+
+            parent.add_child(&rust_grav_obj.to_gd());
+        }
+    }
+
     #[func]
     fn has_planet(&self) -> bool {
         self.planet_data.is_some()
@@ -129,6 +189,9 @@ impl GravObject {
 
     #[func]
     fn set_atmosphere(&mut self, atmosphere: bool) {
+        if self.planet_connection.is_none() {
+            return;
+        }
         if self
             .planet_connection
             .as_mut()
@@ -141,6 +204,9 @@ impl GravObject {
 
     #[func]
     fn leave_atmosphere(&mut self) {
+        if self.planet_connection.is_none() {
+            return;
+        }
         if self
             .planet_connection
             .as_mut()
@@ -158,6 +224,9 @@ impl GravObject {
 
     #[func]
     fn break_orbital_connection(&mut self) {
+        if self.planet_connection.is_none() {
+            return;
+        }
         if self
             .planet_connection
             .as_mut()
@@ -170,6 +239,9 @@ impl GravObject {
 
     #[func]
     fn set_clicking(&mut self, clicking: bool) {
+        if self.planet_connection.is_none() {
+            return;
+        }
         if self
             .planet_connection
             .as_mut()
@@ -187,6 +259,9 @@ impl GravObject {
 
     #[func]
     fn stop_clicking_planet(&mut self) {
+        if self.planet_connection.is_none() {
+            return;
+        }
         if self
             .planet_connection
             .as_mut()

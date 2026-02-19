@@ -1,6 +1,5 @@
 class_name Player extends GravObject
 
-var orbit_clockwise: bool
 var force: float
 
 var connected_planet: Planet = Planet.new()
@@ -20,6 +19,9 @@ func connect_planet(planet: Planet):
 	set_planet(planet.get_planet_center(), planet.get_grav_strength(), planet.in_atmosphere)
 
 func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("right_click") && orbitted:
+		spawn_inherited_grav_object(load("res://space_objects/debug_grav_obj.tscn"))
+	
 	if event.is_action_pressed("debug_press"):
 		if has_planet():
 			
@@ -62,7 +64,7 @@ func _physics_process(delta: float) -> void:
 		elif rot < 0:
 			orbit_clockwise = false
 	else:
-		turn_speed -= rot * turn_accel * delta
+		turn_speed -= rot * turn_accel * delta * (-1 if orbit_clockwise else 1)
 	
 	turn_speed = min(turn_speed, max_turn_speed)
 	
