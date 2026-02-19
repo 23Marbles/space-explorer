@@ -3,7 +3,7 @@
 
 ## Overview
 
-The premise of the game is to explore space searching for planets to colonize and live on. You map a trail behind you as you travel which is revealed at the end.
+The premise of the game is to explore space searching for resources your home planet needs. You must produce these on different planets and create the resources to transport home to save your planet.
 
 ## Jam
 
