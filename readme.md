@@ -21,6 +21,9 @@ This uses the cartographer wildcard
 You travel around a galaxy to find resources and must transport these to whatever planet needs them.
 At the end you should have a web of resource pipelines.
 
+> [!NOTE]
+> The jam version only has an energy transport mechanism and one planet, the full version has other production methods.
+
 ### Gameplay loop
 ```
 Blast into space
