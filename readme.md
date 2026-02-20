@@ -12,8 +12,7 @@ The premise of the game is to explore space searching for resources your home pl
 ### Theme: Journey
 ![theme journey](https://godotwildjam.com/wp-content/uploads/2026/02/Journey-1024x325.png)
 
-~This uses the cartographer wildcard.~ [^1]
-[^1]: Not enough time.
+~This uses the cartographer wildcard.~
 
 ![wildcards](https://godotwildjam.com/wp-content/uploads/2026/02/90-All-Cards-1024x631.png)
 
