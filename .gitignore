@@ -6,7 +6,9 @@ Godot/.nomedia
 # Godot-specific ignores
 Godot/.import/
 Godot/export.cfg
+Godot/export_presets.cfg
 Godot/export_credentials.cfg
+Godot/.builds
 
 # Godot film ignores
 
