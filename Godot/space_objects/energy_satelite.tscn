@@ -1,0 +1,67 @@
+[gd_scene format=3 uid="uid://cw5ud26uv782u"]
+
+[ext_resource type="Script" uid="uid://cb182tv6okms6" path="res://space_objects/energy_transmitter.gd" id="1_4pl8y"]
+[ext_resource type="Texture2D" uid="uid://sl8m20wpgr20" path="res://assets/satelites/transmitter_head.png" id="2_h2n2p"]
+[ext_resource type="Script" uid="uid://by3iwptc1x0to" path="res://space_objects/connector_node.gd" id="3_1b6o6"]
+[ext_resource type="Texture2D" uid="uid://dgxiexqjfp58q" path="res://assets/satelites/transmitter.png" id="4_hibrb"]
+[ext_resource type="Script" uid="uid://cwrntksqyc00a" path="res://space_objects/label.gd" id="5_h2n2p"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4pl8y"]
+radius = 39.52847
+
+[sub_resource type="LabelSettings" id="LabelSettings_h2n2p"]
+font_size = 32
+outline_size = 16
+outline_color = Color(0, 0, 0, 1)
+
+[node name="EnergySatelite" type="RigidBody2D" unique_id=2001753017 node_paths=PackedStringArray("output_node", "input_node")]
+script = ExtResource("1_4pl8y")
+output_node = NodePath("TransmitterHead/Output")
+input_node = NodePath("TransmitterHead2/Input")
+metadata/_custom_type_script = "uid://cm7ivkr77rehy"
+
+[node name="TransmitterHead" type="Sprite2D" parent="." unique_id=2110470460]
+position = Vector2(0, 26)
+texture = ExtResource("2_h2n2p")
+offset = Vector2(-3, 25)
+
+[node name="Output" type="Area2D" parent="TransmitterHead" unique_id=1168755792]
+position = Vector2(-6, 53)
+collision_layer = 32
+collision_mask = 0
+script = ExtResource("3_1b6o6")
+outline_color = Color(0.15686275, 0.14901961, 0.29411766, 1)
+radius = 20.0
+metadata/_custom_type_script = "uid://by3iwptc1x0to"
+
+[node name="TransmitterHead2" type="Sprite2D" parent="." unique_id=804820561]
+position = Vector2(0, -23)
+texture = ExtResource("2_h2n2p")
+offset = Vector2(-3, -23)
+flip_v = true
+
+[node name="Input" type="Area2D" parent="TransmitterHead2" unique_id=778533556]
+position = Vector2(-4, -49)
+collision_layer = 16
+script = ExtResource("3_1b6o6")
+connection_type = 1
+outline_color = Color(0.15686275, 0.14901961, 0.29411766, 1)
+radius = 20.0
+metadata/_custom_type_script = "uid://by3iwptc1x0to"
+
+[node name="Transmitter" type="Sprite2D" parent="." unique_id=1103192664]
+texture = ExtResource("4_hibrb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=968505685]
+position = Vector2(1.5, 0.5)
+shape = SubResource("CircleShape2D_4pl8y")
+
+[node name="Label" type="Label" parent="." unique_id=1636793674]
+offset_left = 83.0
+offset_top = 78.0
+offset_right = 123.0
+offset_bottom = 123.0
+text = "1"
+label_settings = SubResource("LabelSettings_h2n2p")
+script = ExtResource("5_h2n2p")
+metadata/_edit_use_anchors_ = true

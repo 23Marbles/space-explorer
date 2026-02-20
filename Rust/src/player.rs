@@ -1,10 +1,8 @@
+use core::f32;
 use std::fmt::Debug;
 
 use godot::{
-    classes::{IRigidBody2D, RigidBody2D},
-    meta::PackedArrayElement,
-    obj::Base,
-    prelude::*,
+    classes::{IRigidBody2D, RigidBody2D}, global::move_toward, meta::PackedArrayElement, obj::Base, prelude::*
 };
 
 enum ConnectionChange {
@@ -58,13 +56,12 @@ impl ConnectionStatus {
 
 #[derive(GodotClass)]
 #[class(base=RigidBody2D, init)]
-struct GravObject {
-    #[export]
-    #[init(val = 10.)]
+pub struct GravObject {
+    #[var]
     threshhold_range: f32,
-    #[export]
+    #[var]
     hold_time: f64,
-    #[export]
+    #[var]
     #[init(val = 40000.)]
     max_turn_speed: f32,
     #[export]
@@ -81,6 +78,8 @@ struct GravObject {
     #[var]
     speed: f32,
     planet_data: Option<(Vector2, f32)>,
+    current_grav_strength: f32,
+    overide_grav_strength: Option<f32>,
     planet_connection: Option<ConnectionStatus>,
     #[var]
     pos_log: PackedVector2Array,
@@ -93,7 +92,7 @@ struct GravObject {
     /// Is true when it has fully orbitted the center
     #[var]
     orbitted: bool,
-    base: Base<RigidBody2D>,
+    pub base: Base<RigidBody2D>,
 }
 
 impl Debug for GravObject {
@@ -173,6 +172,9 @@ impl GravObject {
 
     #[func]
     fn set_planet(&mut self, pos: Vector2, strength: f32, in_atmosphere: bool) {
+        self.hold_time = f64::MAX;
+        self.threshhold_range = f32::MAX;
+
         self.speed = self.entry_speed;
         self.planet_data = Some((pos, strength));
         self.planet_connection = Some(ConnectionStatus {
@@ -282,12 +284,40 @@ impl GravObject {
     }
 
     #[func]
+    fn set_overide_grav(&mut self, overide: f32) {
+        self.overide_grav_strength = Some(overide * 100_000.)
+    }
+
+    #[func]
+    fn remove_overide_grav(&mut self) {
+        self.overide_grav_strength = None
+    }
+
+    fn move_from_grav_strength(&mut self, center: Vector2, strength: f32) {
+        let global_pos = self.base().get_global_position();
+
+        self.base_mut().apply_force(
+            global_pos.direction_to(center) * strength / global_pos.distance_to(center),
+        );
+    }
+
+    #[func]
     fn grav_physics_tick(&mut self, _delta: f64) {
         if let Some((center, grav_strength)) = self.planet_data {
-            let global_pos = self.base().get_global_position();
-            self.base_mut().apply_force(
-                global_pos.direction_to(center) * grav_strength / global_pos.distance_to(center),
-            );
+            //const CHANGE_SPEED: f64 = 2.;
+
+            if let Some(overide_grav_strength) = self.overide_grav_strength {
+                //self.current_grav_strength = move_toward(self.current_grav_strength as f64, overide_grav_strength as f64, _delta * CHANGE_SPEED) as f32;
+                //godot_print!("overide: {} ..> {}", self.current_grav_strength, overide_grav_strength);
+                self.current_grav_strength = overide_grav_strength
+            } else {
+                //self.current_grav_strength = move_toward(self.current_grav_strength as f64, grav_strength as f64, _delta * CHANGE_SPEED) as f32;
+                //godot_print!("no overide: {} ..> {}", self.current_grav_strength, grav_strength);
+                self.current_grav_strength = grav_strength
+            }
+
+            let strength = self.current_grav_strength;
+            self.move_from_grav_strength(center, strength);
 
             if !self.orbitted {
                 if self.get_planet_circle() {

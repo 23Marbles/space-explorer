@@ -11,9 +11,9 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	queue_redraw()
 
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_accept"):
-		queue_redraw()
+#func _unhandled_input(event: InputEvent) -> void:
+	#if event.is_action_pressed("ui_accept"):
+	#	$SpaceShip/Camera2D.zoom = Vector2.ONE * 0.1
 
 func _draw() -> void:
 	draw_polyline(space_ship.get_log_with_res(7), Color.WHITE, 10)

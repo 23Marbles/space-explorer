@@ -30,8 +30,8 @@ Blast into space
    │
    │
 Place objects in orbit above planets
-   │                  │
-   │                  │
+   │                 │
+   │                 │
 Link objects ─── Find new planets
    │
    │
@@ -42,7 +42,7 @@ View your network
 
 - [x] Movement 
 - [x] Placing in orbit
-- [ ] Interacting with objects 
+- [x] Interacting with objects 
 - [ ] Objectives and navigation 
 - [ ] Create game assets
 - [ ] Final cutscene

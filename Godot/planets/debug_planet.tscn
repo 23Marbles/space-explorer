@@ -2,6 +2,15 @@
 
 [ext_resource type="Script" uid="uid://dp554wch5hnj8" path="res://planets/planet.gd" id="1_iw0y7"]
 [ext_resource type="Texture2D" uid="uid://ci34br2hflaj8" path="res://assets/space/orange_planet.png" id="1_kwq3d"]
+[ext_resource type="Script" uid="uid://by3iwptc1x0to" path="res://space_objects/connector_node.gd" id="3_aq8rk"]
+[ext_resource type="Script" uid="uid://cm7ivkr77rehy" path="res://space_objects/energy_satelite.gd" id="3_yn5cm"]
+[ext_resource type="Script" uid="uid://bacs85877bsuh" path="res://planets/lock_pos.gd" id="4_rf1yp"]
+[ext_resource type="Script" uid="uid://cwrntksqyc00a" path="res://space_objects/label.gd" id="6_qd8s6"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_g1m0w"]
+font_size = 32
+outline_size = 16
+outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="Gradient" id="Gradient_iw0y7"]
 interpolation_mode = 1
@@ -22,12 +31,41 @@ radius = 3120.2983
 [sub_resource type="CircleShape2D" id="CircleShape2D_iw0y7"]
 radius = 141.22676
 
-[node name="DebugPlanet" type="StaticBody2D" unique_id=461092253]
+[node name="DebugPlanet" type="Area2D" unique_id=1212481206 node_paths=PackedStringArray("input_node")]
 collision_layer = 2
-input_pickable = true
 script = ExtResource("1_iw0y7")
-strength_multiplier = 3.0
+input_node = NodePath("EnergySatelite")
 metadata/_custom_type_script = "uid://dp554wch5hnj8"
+
+[node name="EnergySatelite" type="RigidBody2D" parent="." unique_id=1346547603 node_paths=PackedStringArray("input_node")]
+sleeping = true
+lock_rotation = true
+freeze = true
+script = ExtResource("3_yn5cm")
+input_node = NodePath("Node2D/ConnectionNode")
+metadata/_custom_type_script = "uid://cm7ivkr77rehy"
+
+[node name="Node2D" type="Node2D" parent="EnergySatelite" unique_id=1832325721]
+script = ExtResource("4_rf1yp")
+
+[node name="ConnectionNode" type="Area2D" parent="EnergySatelite/Node2D" unique_id=866846425]
+collision_layer = 16
+collision_mask = 0
+script = ExtResource("3_aq8rk")
+connection_type = 1
+radius = 1.0
+useful = true
+metadata/_custom_type_script = "uid://by3iwptc1x0to"
+
+[node name="Label" type="Label" parent="EnergySatelite" unique_id=122333918]
+offset_left = 142.0
+offset_top = 123.0
+offset_right = 182.0
+offset_bottom = 168.0
+text = "1"
+label_settings = SubResource("LabelSettings_g1m0w")
+script = ExtResource("6_qd8s6")
+metadata/_edit_use_anchors_ = true
 
 [node name="OrangePlanet" type="Sprite2D" parent="." unique_id=1627786180]
 position = Vector2(3, -10)

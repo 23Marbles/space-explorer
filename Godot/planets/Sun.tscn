@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://s704bgcw2ckk"]
+
+[ext_resource type="Script" uid="uid://dp554wch5hnj8" path="res://planets/planet.gd" id="1_aytyx"]
+[ext_resource type="Texture2D" uid="uid://c5buue04tdwtt" path="res://assets/space/sun.png" id="2_60sh0"]
+
+[sub_resource type="Gradient" id="Gradient_iw0y7"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0.625, 0.7777778, 1)
+colors = PackedColorArray(0.41960785, 0.6039216, 1, 0, 0.4182377, 0.6019757, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_iw4m4"]
+gradient = SubResource("Gradient_iw0y7")
+width = 1200
+height = 1200
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_q041x"]
+radius = 10566.176
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_a1dm2"]
+radius = 436.0103
+
+[node name="Sun" type="Area2D" unique_id=108658148]
+script = ExtResource("1_aytyx")
+sun = true
+metadata/_custom_type_script = "uid://dp554wch5hnj8"
+
+[node name="Sun" type="Sprite2D" parent="." unique_id=1402547162]
+scale = Vector2(1.4171429, 1.4171429)
+texture = ExtResource("2_60sh0")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="." unique_id=491904597]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -600.0
+offset_top = -600.0
+offset_right = 600.0
+offset_bottom = 600.0
+grow_horizontal = 2
+grow_vertical = 2
+value = 100.0
+fill_mode = 4
+texture_progress = SubResource("GradientTexture2D_iw4m4")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1642475248]
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=606526789]
+shape = SubResource("CircleShape2D_q041x")
+debug_color = Color(1, 1, 1, 0.41960785)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1321059892]
+shape = SubResource("CircleShape2D_a1dm2")
+debug_color = Color(0.85577035, 0.36758545, 0, 0.41960785)

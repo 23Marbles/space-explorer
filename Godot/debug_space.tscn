@@ -1,9 +1,10 @@
 [gd_scene format=3 uid="uid://d3uajdpvlihkq"]
 
-[ext_resource type="PackedScene" uid="uid://ckwlj3mobduxg" path="res://planets/debug_planet.tscn" id="1_oq6yt"]
 [ext_resource type="Script" uid="uid://co3q2qwabnsbo" path="res://debug_space_controller.gd" id="1_pudsk"]
 [ext_resource type="PackedScene" uid="uid://3gilkj532s3n" path="res://player/space_ship.tscn" id="2_pudsk"]
+[ext_resource type="PackedScene" uid="uid://s704bgcw2ckk" path="res://planets/Sun.tscn" id="3_1pbtg"]
 [ext_resource type="Script" uid="uid://dxu6ltu87vf34" path="res://debug_label.gd" id="4_1wh28"]
+[ext_resource type="PackedScene" uid="uid://ckwlj3mobduxg" path="res://planets/debug_planet.tscn" id="5_1pbtg"]
 [ext_resource type="Resource" uid="uid://d31nb8gynvbko" path="res://assets/space/space_background.tres" id="6_1pbtg"]
 [ext_resource type="Script" uid="uid://dtdbkp5belbij" path="res://assets/space/star_parallax.gd" id="6_1wh28"]
 
@@ -12,24 +13,25 @@ font_size = 32
 outline_size = 16
 outline_color = Color(0, 0, 0, 1)
 
-[sub_resource type="Gradient" id="Gradient_ssvxu"]
+[sub_resource type="Gradient" id="Gradient_1wh28"]
 colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_1wh28"]
-gradient = SubResource("Gradient_ssvxu")
-width = 1
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_1pbtg"]
+gradient = SubResource("Gradient_1wh28")
 
 [node name="Space" type="Node2D" unique_id=267100560]
 script = ExtResource("1_pudsk")
 
 [node name="Planets" type="Node2D" parent="." unique_id=555121345]
 
-[node name="DebugPlanet" parent="Planets" unique_id=461092253 instance=ExtResource("1_oq6yt")]
-position = Vector2(1109, 668)
-strength_multiplier = 1.0
+[node name="Sun" parent="Planets" unique_id=1495205898 instance=ExtResource("3_1pbtg")]
+position = Vector2(-490, -382)
+
+[node name="DebugPlanet" parent="Planets" unique_id=461092253 instance=ExtResource("5_1pbtg")]
+position = Vector2(2221, 159)
+strength_multiplier = 7.0
 
 [node name="SpaceShip" parent="." unique_id=1718396979 instance=ExtResource("2_pudsk")]
-hold_time = 3.0
 turn_accel = 1000.0
 position = Vector2(394, 225)
 
@@ -55,12 +57,12 @@ repeat_times = 40
 [node name="TextureRect" type="TextureRect" parent="ParallaxDistance5" unique_id=457722075]
 offset_right = 2000.0
 offset_bottom = 2000.0
-texture = SubResource("GradientTexture1D_1wh28")
+texture = SubResource("GradientTexture2D_1pbtg")
 
 [node name="StarParallax2D" type="Parallax2D" parent="." unique_id=1380667286]
-modulate = Color(1, 1, 1, 0.90066546)
+modulate = Color(1, 1, 1, 0.8982844)
 z_index = -1
-scroll_scale = Vector2(0.90066546, 0.90066546)
+scroll_scale = Vector2(0.8982844, 0.8982844)
 repeat_size = Vector2(2000, 2000)
 repeat_times = 4
 script = ExtResource("6_1wh28")
@@ -69,9 +71,9 @@ star_textures = ExtResource("6_1pbtg")
 metadata/_custom_type_script = "uid://dtdbkp5belbij"
 
 [node name="StarParallax2D2" type="Parallax2D" parent="." unique_id=1019936086]
-modulate = Color(1, 1, 1, 0.68319935)
+modulate = Color(1, 1, 1, 0.7298061)
 z_index = -1
-scroll_scale = Vector2(0.68319935, 0.68319935)
+scroll_scale = Vector2(0.7298061, 0.7298061)
 repeat_size = Vector2(2000, 2000)
 repeat_times = 4
 script = ExtResource("6_1wh28")
@@ -83,9 +85,9 @@ star_textures = ExtResource("6_1pbtg")
 metadata/_custom_type_script = "uid://dtdbkp5belbij"
 
 [node name="StarParallax2D3" type="Parallax2D" parent="." unique_id=49185710]
-modulate = Color(1, 1, 1, 0.48168156)
+modulate = Color(1, 1, 1, 0.47862783)
 z_index = -1
-scroll_scale = Vector2(0.48168156, 0.48168156)
+scroll_scale = Vector2(0.47862783, 0.47862783)
 repeat_size = Vector2(2000, 2000)
 repeat_times = 4
 script = ExtResource("6_1wh28")
@@ -97,9 +99,9 @@ star_textures = ExtResource("6_1pbtg")
 metadata/_custom_type_script = "uid://dtdbkp5belbij"
 
 [node name="StarParallax2D4" type="Parallax2D" parent="." unique_id=1131917434]
-modulate = Color(1, 1, 1, 0.28974792)
+modulate = Color(1, 1, 1, 0.28767565)
 z_index = -1
-scroll_scale = Vector2(0.28974792, 0.28974792)
+scroll_scale = Vector2(0.28767565, 0.28767565)
 repeat_size = Vector2(2000, 2000)
 repeat_times = 4
 script = ExtResource("6_1wh28")

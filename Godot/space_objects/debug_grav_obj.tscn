@@ -1,15 +1,16 @@
 [gd_scene format=3 uid="uid://dmvqosfhdutcs"]
 
-[ext_resource type="Script" uid="uid://ogrbjvxiyvac" path="res://space_objects/debug_grav_obj.gd" id="1_0fn40"]
+[ext_resource type="Script" uid="uid://bwbo56vsuj7wr" path="res://space_objects/satelite.gd" id="1_0fn40"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0fn40"]
 radius = 51.0
 height = 250.0
 
-[node name="DebugGravObj" type="GravObject" unique_id=1843482701]
+[node name="DebugGravObj" type="GravObject" unique_id=1879626496]
 collision_layer = 8
 collision_mask = 2
 script = ExtResource("1_0fn40")
+metadata/_custom_type_script = "uid://bwbo56vsuj7wr"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=220678986]
 shape = SubResource("CapsuleShape2D_0fn40")

@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://5ijfehgej40x"]
+
+[ext_resource type="Script" uid="uid://cwdqi0wdl10f0" path="res://addons/graph_2d/graph_2d.gd" id="1_x61jn"]
+
+[node name="Gui" type="Control" unique_id=294304451]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Graph2D" type="Control" parent="." unique_id=895216967]
+anchors_preset = 0
+offset_right = 457.0
+offset_bottom = 237.0
+script = ExtResource("1_x61jn")
+show_x_ticks = false
+show_x_numbers = false
+show_y_ticks = false
+show_y_numbers = false
+background_color = Color(7.821247e-08, 0.07581147, 0.07581151, 1)
+grid_horizontal_visible = true
+grid_horizontal_color = Color(0, 0.24766117, 0.24766114, 1)
+grid_vertical_color = Color(0, 0.24705882, 0.24705882, 1)
+metadata/_custom_type_script = "uid://cwdqi0wdl10f0"

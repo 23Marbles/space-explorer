@@ -4,6 +4,7 @@ use godot::prelude::*;
 
 //mod planet;
 mod player;
+mod satelite;
 
 struct MyExtension;
 

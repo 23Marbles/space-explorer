@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://b2sq2xa44cjw3"]
+
+[ext_resource type="Script" uid="uid://bcolk6gduuxly" path="res://space_objects/solar_panel.gd" id="1_rlb0o"]
+[ext_resource type="Texture2D" uid="uid://cfn43jy467grd" path="res://assets/satelites/solar_panel.svg" id="2_rlb0o"]
+[ext_resource type="Script" uid="uid://by3iwptc1x0to" path="res://space_objects/connector_node.gd" id="3_jwvlj"]
+[ext_resource type="Script" uid="uid://cwrntksqyc00a" path="res://space_objects/label.gd" id="4_hxjwj"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_g5025"]
+radius = 43.0
+height = 148.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_ityel"]
+font_size = 32
+outline_size = 16
+outline_color = Color(0, 0, 0, 1)
+
+[node name="SolarPanel" type="RigidBody2D" unique_id=1839601342 node_paths=PackedStringArray("output_node")]
+script = ExtResource("1_rlb0o")
+output_node = NodePath("SolarPanel/ConnectionNode")
+metadata/_custom_type_script = "uid://cm7ivkr77rehy"
+
+[node name="SolarPanel" type="Sprite2D" parent="." unique_id=188759103]
+scale = Vector2(0.45703122, 0.45703122)
+texture = ExtResource("2_rlb0o")
+offset = Vector2(-142.0146, 0)
+flip_h = true
+
+[node name="ConnectionNode" type="Area2D" parent="SolarPanel" unique_id=477023031]
+modulate = Color(0.6784314, 0.84705883, 0.9019608, 1)
+self_modulate = Color(0.6784314, 0.84705883, 0.9019608, 1)
+position = Vector2(-280.0684, 0)
+collision_layer = 32
+collision_mask = 0
+script = ExtResource("3_jwvlj")
+reload = null
+outline_color = Color(0, 0, 0, 1)
+radius = 20.0
+metadata/_custom_type_script = "uid://by3iwptc1x0to"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1905203873]
+shape = SubResource("CapsuleShape2D_g5025")
+
+[node name="Label" type="Label" parent="." unique_id=1712115222]
+offset_left = 83.0
+offset_top = 78.0
+offset_right = 123.0
+offset_bottom = 123.0
+text = "1"
+label_settings = SubResource("LabelSettings_ityel")
+script = ExtResource("4_hxjwj")
+metadata/_edit_use_anchors_ = true
